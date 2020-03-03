@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -13,6 +14,7 @@ export class HomePage implements OnInit {
 
   constructor(
     private storage: Storage,
+    private router: Router,
     private localNotifications: LocalNotifications
   ) { }
 
@@ -49,7 +51,7 @@ export class HomePage implements OnInit {
 
         const noticeParam = {
           id: idIndex,
-          title: notice.Mname + ' ' + notice.description,
+          title: notice.Mname + ' ' + notice.medicine + ' ' + notice.description,
           trigger: {
             every: {
               hour: selectHr,
@@ -66,6 +68,10 @@ export class HomePage implements OnInit {
 
       this.localNotifications.schedule(noticeList);
     });
+  }
+
+  onClickUpdate(index) {
+    this.router.navigate(['/update-detail', { index }]);
   }
 
 }
