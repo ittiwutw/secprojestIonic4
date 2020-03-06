@@ -108,8 +108,7 @@ export class UpdateDetailPage implements OnInit {
   validate() {
     let isValidated = false;
 
-    if (this.postdata.Mname !== '' && this.postdata.description !== '' && this.postdata.medicine !== ''
-      && this.postdata.medicineType !== '' && this.postdata.time !== '') {
+    if (this.postdata.Mname !== '' && this.postdata.medicine !== '' && this.postdata.time !== '') {
       isValidated = true;
     }
 
