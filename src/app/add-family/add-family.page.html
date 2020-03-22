@@ -1,0 +1,59 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>เพิ่มข้อมูลครอบครัว</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-list>
+  <ion-item>
+    <ion-label position="floating">
+      ชื่อ
+    </ion-label>
+    <ion-input [(ngModel)]="familyData.name"></ion-input>
+  </ion-item>
+  <ion-item position="floating">
+    <ion-label>
+      วันเกิด
+    </ion-label>
+    <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="familyData.birthDate"></ion-datetime>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">
+      อาการทางการแพทย์
+    </ion-label>
+    <ion-textarea rows="3" [(ngModel)]="familyData.symptoms"></ion-textarea>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">
+      การแพ้ยา
+    </ion-label>
+    <ion-textarea rows="3" [(ngModel)]="familyData.drugAllergy"></ion-textarea>
+  </ion-item>
+  <ion-item>
+    <ion-label>กรุ้ปเลือด</ion-label>
+    <ion-select placeholder="เลือก" [(ngModel)]="familyData.blood">
+      <ion-select-option value="A">A</ion-select-option>
+      <ion-select-option value="B">B</ion-select-option>
+      <ion-select-option value="O">O</ion-select-option>
+      <ion-select-option value="AB">AB</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">
+      น้ำหนัก
+    </ion-label>
+    <ion-input [(ngModel)]="familyData.weight"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">
+      ส่วนสูง
+    </ion-label>
+    <ion-input [(ngModel)]="familyData.height"></ion-input>
+  </ion-item>
+</ion-list>
+<ion-button expand="full" (click)="onClickSave()">บันทึกข้อมูล</ion-button>
+</ion-content>

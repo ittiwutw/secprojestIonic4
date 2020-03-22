@@ -1,0 +1,29 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>รายการแจ้งเตือน</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onClickAdd()">เพิ่มการแจ้งเตือน</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let med of medList; let i = index">
+    <ion-card-header>
+      {{med.Mname}}
+    </ion-card-header>
+    <ion-card-content>
+      <p>{{med.medicine}}</p>
+      <p>{{med.medicineType}}</p>
+      <p>{{med.description}}</p>
+      <p>{{med.time | date: 'HH:mm'}}</p>
+    </ion-card-content>
+    <div class="ion-text-right ion-padding">
+      <ion-button color="warning" (click)="onClickUpdate(i)">แก้ไข</ion-button>
+      <ion-button color="danger" (click)="removeMed(i)">ลบ</ion-button>
+    </div>
+  </ion-card>
+</ion-content>

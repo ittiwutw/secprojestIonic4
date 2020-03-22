@@ -22,6 +22,18 @@ const routes: Routes = [
   {
     path: 'update-detail',
     loadChildren: () => import('./update-detail/update-detail.module').then( m => m.UpdateDetailPageModule)
+  },
+  {
+    path: 'add-family',
+    loadChildren: () => import('./add-family/add-family.module').then( m => m.AddFamilyPageModule)
+  },
+  {
+    path: 'family-list',
+    loadChildren: () => import('./family-list/family-list.module').then( m => m.FamilyListPageModule)
+  },
+  {
+    path: 'notification-list',
+    loadChildren: () => import('./notification-list/notification-list.module').then( m => m.NotificationListPageModule)
   }
 ];
 

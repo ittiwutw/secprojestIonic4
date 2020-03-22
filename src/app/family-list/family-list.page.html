@@ -1,0 +1,32 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>รายชื่อครอบครัว</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onClickAdd()">เพิ่มข้อมูล</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let familie of families; let i = index">
+    <ion-card-header>
+      {{familie.name}}
+    </ion-card-header>
+    <ion-card-content>
+      <p>วันเกิด: {{familie.birthDate | date: 'shortDate'}}</p>
+      <p>อาการทางการแพทย์: {{familie.symptoms}}</p>
+      <p>อาการแพ้ยา: {{familie.drugAllergy}}</p>
+      <p>กรุ้ปเลือด: {{familie.blood }}</p>
+      <p>น้ำหนัก: {{familie.weight }}</p>
+      <p>ส่วนสูง: {{familie.height }}</p>
+    </ion-card-content>
+    <div class="ion-text-right ion-padding">
+      <!-- <ion-button color="warning" (click)="onClickUpdate(i)">แก้ไข</ion-button>
+      <ion-button color="danger" (click)="removeMed(i)">ลบ</ion-button> -->
+      <ion-button (click)="onClickNotiList(familie, i)">การแจ้งเตือนกินยา</ion-button>
+    </div>
+  </ion-card>
+</ion-content>

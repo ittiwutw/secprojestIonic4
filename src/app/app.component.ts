@@ -21,6 +21,11 @@ export class AppComponent implements OnInit {
       title: 'เพิ่มข้อมูล',
       url: 'add-detail',
       icon: 'add'
+    },
+    {
+      title: 'ข้อมูลครอบครัว',
+      url: 'family-list',
+      icon: 'list'
     }
   ];
 
