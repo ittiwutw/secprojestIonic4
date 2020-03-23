@@ -38,6 +38,9 @@ MIT
 @angular/router
 MIT
 
+@ionic-native/camera
+MIT
+
 @ionic-native/core
 MIT
 

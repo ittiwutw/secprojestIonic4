@@ -9,6 +9,8 @@
 
 <ion-content>
 <ion-list>
+  <ion-img style="height: 100px;" role="button" [src]="familyData.img" *ngIf="familyData.img" ></ion-img>
+  <ion-button expand="block" (click)="pickImage()">เลือกรูปภาพ</ion-button>
   <ion-item>
     <ion-label position="floating">
       ชื่อ
@@ -46,14 +48,15 @@
     <ion-label position="floating">
       น้ำหนัก
     </ion-label>
-    <ion-input [(ngModel)]="familyData.weight"></ion-input>
+    <ion-input [(ngModel)]="familyData.weight" type="tel"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label position="floating">
       ส่วนสูง
     </ion-label>
-    <ion-input [(ngModel)]="familyData.height"></ion-input>
+    <ion-input [(ngModel)]="familyData.height" type="tel"></ion-input>
   </ion-item>
 </ion-list>
-<ion-button expand="full" (click)="onClickSave()">บันทึกข้อมูล</ion-button>
+<ion-button expand="full" (click)="onClickSave()" *ngIf="!isUpdate">บันทึกข้อมูล</ion-button>
+<ion-button expand="full" (click)="onClickUpdate()" *ngIf="isUpdate">แก้ไขข้อมูล</ion-button>
 </ion-content>

@@ -11,22 +11,24 @@
 </ion-header>
 
 <ion-content>
-  <ion-card *ngFor="let familie of families; let i = index">
+  <ion-card *ngFor="let family of families; let i = index">
+    <br>
+    <ion-img style="height: 100px;" [src]="family.img" *ngIf="family.img" ></ion-img>
     <ion-card-header>
-      {{familie.name}}
+      {{family.name}}
     </ion-card-header>
     <ion-card-content>
-      <p>วันเกิด: {{familie.birthDate | date: 'shortDate'}}</p>
-      <p>อาการทางการแพทย์: {{familie.symptoms}}</p>
-      <p>อาการแพ้ยา: {{familie.drugAllergy}}</p>
-      <p>กรุ้ปเลือด: {{familie.blood }}</p>
-      <p>น้ำหนัก: {{familie.weight }}</p>
-      <p>ส่วนสูง: {{familie.height }}</p>
+      <p>วันเกิด: {{family.birthDate | date: 'shortDate' || '-' }}</p>
+      <p>อาการทางการแพทย์: {{family.symptoms || '-'}}</p>
+      <p>อาการแพ้ยา: {{family.drugAllergy || '-'}}</p>
+      <p>กรุ้ปเลือด: {{family.blood || '-' }}</p>
+      <p>น้ำหนัก: {{family.weight || '-' }}</p>
+      <p>ส่วนสูง: {{family.height || '-' }}</p>
     </ion-card-content>
     <div class="ion-text-right ion-padding">
-      <!-- <ion-button color="warning" (click)="onClickUpdate(i)">แก้ไข</ion-button>
-      <ion-button color="danger" (click)="removeMed(i)">ลบ</ion-button> -->
-      <ion-button (click)="onClickNotiList(familie, i)">การแจ้งเตือนกินยา</ion-button>
+      <ion-button color="warning" (click)="onClickUpdate(family, i)">แก้ไข</ion-button>
+      <ion-button (click)="onClickNotiList(family, i)">การแจ้งเตือนกินยา</ion-button>
+      <ion-button color="danger" (click)="onClickRemove(i)">ลบ</ion-button>
     </div>
   </ion-card>
 </ion-content>

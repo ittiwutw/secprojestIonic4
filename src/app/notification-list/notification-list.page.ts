@@ -25,6 +25,8 @@ export class NotificationListPage implements OnInit {
 
       console.log(this.familyDetail);
     });
+
+    this.localNotifications.getAllScheduled();
   }
 
   ngOnInit() {
@@ -71,14 +73,15 @@ export class NotificationListPage implements OnInit {
     this.router.navigate(['/add-detail', { familyIndex: this.familyDetail.familyIndex, medIndex }]);
   }
 
-  setNotice(noticeList) {
+  setNotice(medList) {
     this.localNotifications.cancelAll().then(() => {
       this.localNotifications.clearAll().then(() => {
         // set การแจ้งเตือน โดยดึงค่าที่ต้องการแจ้งเตือนทั้งหมดมาวน loop
+        const noticeList = [];
         let idIndex = 1;
 
         // วน loop
-        noticeList.forEach(notice => {
+        medList.forEach(notice => {
 
           // แปลงเวลาที่ user เลือก เอาเฉพาะ ชั่วโมงกับนาที
           const selectDate = new Date(notice.time);
@@ -87,7 +90,7 @@ export class NotificationListPage implements OnInit {
           let selectHr = selectDate.getHours();
           let selectMin = selectDate.getMinutes();
 
-          if (noticeList.medicineType === 'ก่อนอาหาร') {
+          if (notice.medicineType === 'ก่อนอาหาร') {
             selectMin = selectMin - 15;
             if (selectMin < 0) {
               selectHr = selectHr - 1;

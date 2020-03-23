@@ -13,16 +13,6 @@ export class AppComponent implements OnInit {
   public selectedIndex = 0;
   public appPages = [
     {
-      title: 'หน้าหลัก',
-      url: 'home',
-      icon: 'home'
-    },
-    {
-      title: 'เพิ่มข้อมูล',
-      url: 'add-detail',
-      icon: 'add'
-    },
-    {
       title: 'ข้อมูลครอบครัว',
       url: 'family-list',
       icon: 'list'

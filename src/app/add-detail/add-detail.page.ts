@@ -213,14 +213,15 @@ export class AddDetailPage implements OnInit {
 
   }
 
-  setNotice(noticeList) {
+  setNotice(medList) {
     this.localNotifications.cancelAll().then(() => {
       this.localNotifications.clearAll().then(() => {
         // set การแจ้งเตือน โดยดึงค่าที่ต้องการแจ้งเตือนทั้งหมดมาวน loop
+        const noticeList = [];
         let idIndex = 1;
 
         // วน loop
-        noticeList.forEach(notice => {
+        medList.forEach(notice => {
 
           // แปลงเวลาที่ user เลือก เอาเฉพาะ ชั่วโมงกับนาที
           const selectDate = new Date(notice.time);
@@ -229,11 +230,29 @@ export class AddDetailPage implements OnInit {
           let selectHr = selectDate.getHours();
           let selectMin = selectDate.getMinutes();
 
-          if (noticeList.medicineType === 'ก่อนอาหาร') {
+          console.log(notice.medicineType);
+          if (notice.medicineType === 'ก่อนอาหาร') {
+            console.log('before');
             selectMin = selectMin - 15;
+            console.log('- 15: ' + selectMin);
             if (selectMin < 0) {
               selectHr = selectHr - 1;
-              selectMin = selectHr + 60;
+              selectMin = selectMin + 60;
+              console.log('<0 15: ' + selectMin);
+            }
+          } else if (notice.medicineType === 'หลังอาหาร') {
+            console.log('after');
+            selectMin = selectMin + 15;
+            console.log('- 15: ' + selectMin);
+            if (selectMin > 59) {
+              selectHr = selectHr + 1;
+              const minLeft = selectMin - 60;
+              if (minLeft === 0) {
+                selectMin = 0;
+              } else {
+                selectMin = minLeft;
+              }
+              console.log('>60 timeLeft: ' + selectMin);
             }
           }
 
@@ -260,6 +279,7 @@ export class AddDetailPage implements OnInit {
         // ใช้ @ionic-native/local-notifications/ngx ในการแจ้งเตือน
         // set ค่าที่ต้องการแจ้งเตือน โดยอ้างอิงจากตัวแปร noticeList
         this.localNotifications.schedule(noticeList);
+
         this.router.navigate(['/family-list']);
 
       });
