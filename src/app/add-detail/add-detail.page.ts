@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-add-detail',
@@ -11,6 +13,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 export class AddDetailPage implements OnInit {
 
   postdata = {
+    img: '',
     medicine: '',
     Mname: '',
     medicineType: '',
@@ -30,7 +33,9 @@ export class AddDetailPage implements OnInit {
     private storage: Storage,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private localNotifications: LocalNotifications
+    private localNotifications: LocalNotifications,
+    private camera: Camera,
+    private domSanitizer: DomSanitizer,
   ) {
 
     this.localNotifications.requestPermission();
@@ -285,6 +290,28 @@ export class AddDetailPage implements OnInit {
       });
     });
 
+  }
+
+  pickImage() {
+    const options: CameraOptions = {
+      quality: 100,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    };
+
+    this.camera.getPicture(options).then((imageData) => {
+      // imageData is either a base64 encoded string or a file URI
+      // If it's base64 (DATA_URL):
+      const base64Image = 'data:image/jpeg;base64,' + imageData;
+      console.log(base64Image);
+
+      this.postdata.img = base64Image;
+
+    }, (err) => {
+      // Handle error
+    });
   }
 
 }
