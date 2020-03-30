@@ -35,15 +35,22 @@
     <ion-input placeholder="ชื่อยา" [(ngModel)]="postdata.medicine"></ion-input>
   </ion-item>
 
-  <!-- <ion-item>
+  <ion-item>
     <ion-label position="fixed">
-      ชนิดของยา
+      ปริมาตร
     </ion-label>
-    <ion-input
-      placeholder="ชนิดของยา"
-      [(ngModel)]="postdata.medicineType"
-    ></ion-input>
-  </ion-item> -->
+    <ion-input placeholder="ปริมาตร" [(ngModel)]="postdata.amt"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>หน่วย</ion-label>
+    <ion-select placeholder="เลือก" [(ngModel)]="postdata.unit">
+      <ion-select-option value="ช้อนชา">ช้อนชา</ion-select-option>
+      <ion-select-option value="ช้อนโต๊ะ">ช้อนโต๊ะ</ion-select-option>
+      <ion-select-option value="CC">CC</ion-select-option>
+      <ion-select-option value="ML">ML</ion-select-option>
+    </ion-select>
+  </ion-item>
 
   <ion-item>
     <ion-label position="fixed">

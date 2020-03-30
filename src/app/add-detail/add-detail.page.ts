@@ -18,7 +18,9 @@ export class AddDetailPage implements OnInit {
     Mname: '',
     medicineType: '',
     description: '',
-    time: ''
+    time: '',
+    unit: '',
+    amt: ''
   };
 
   noticeList: any;
