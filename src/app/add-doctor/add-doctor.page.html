@@ -1,0 +1,47 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>กรอกข้อมูล</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-img style="height: 100px;" role="button" [src]="postdata.img" *ngIf="postdata.img" ></ion-img>
+  <ion-button expand="block" (click)="pickImage()">เลือกรูปภาพ</ion-button>
+  <ion-item>
+    <ion-label position="fixed">
+      ชื่อ
+    </ion-label>
+    <ion-input
+      [(ngModel)]="postdata.Mname"
+      disabled="true"
+    ></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>สถานที่</ion-label>
+    <ion-input placeholder="สถานที่" [(ngModel)]="postdata.place"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">
+      รายละเอียดการเตรียมตัว
+    </ion-label>
+    <ion-textarea placeholder="รายละเอียดการเตรียมตัว" rows="3" [(ngModel)]="postdata.description"></ion-textarea>
+  </ion-item>
+  <ion-item>
+    <ion-label position="fixed">เวลานัด</ion-label>
+    <ion-datetime
+      placeholder="เวลา"
+      displayFormat="DD/MM/YYYY, HH:mm"
+      [(ngModel)]="postdata.time"
+    ></ion-datetime>
+  </ion-item>
+  <br>
+  <ion-button expand="block" (click)="onSave()" *ngIf="!isUpdate">บันทึก</ion-button>
+  <ion-button expand="block" (click)="onUpdate()" *ngIf="isUpdate">แก้ไช</ion-button>
+
+  {{noticeList}}
+</ion-content>

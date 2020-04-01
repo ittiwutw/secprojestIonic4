@@ -6,28 +6,25 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-add-detail',
-  templateUrl: './add-detail.page.html',
-  styleUrls: ['./add-detail.page.scss'],
+  selector: 'app-add-doctor',
+  templateUrl: './add-doctor.page.html',
+  styleUrls: ['./add-doctor.page.scss'],
 })
-export class AddDetailPage implements OnInit {
+export class AddDoctorPage implements OnInit {
 
   postdata = {
     img: '',
-    medicine: '',
     Mname: '',
-    medicineType: '',
+    place: '',
     description: '',
-    time: '',
-    unit: '',
-    amt: ''
+    time: ''
   };
 
   noticeList: any;
 
   familyIndex: any;
   familyDetail: any;
-  medIndex: any;
+  doctorIndex: any;
 
   isUpdate = false;
 
@@ -51,9 +48,9 @@ export class AddDetailPage implements OnInit {
 
       console.log(this.familyIndex);
 
-      if (param.medIndex) {
-        this.medIndex = param.medIndex;
-        this.getMedNoticeData(param.medIndex);
+      if (param.doctorIndex) {
+        this.doctorIndex = param.doctorIndex;
+        this.getDoctorNoticeData(param.doctorIndex);
         this.isUpdate = true;
       }
 
@@ -67,7 +64,7 @@ export class AddDetailPage implements OnInit {
   validate() {
     let isValidated = false;
 
-    if (this.postdata.Mname !== '' && this.postdata.medicine !== '' && this.postdata.time !== '') {
+    if (this.postdata.description !== '' && this.postdata.time !== '') {
       isValidated = true;
     }
 
@@ -75,11 +72,9 @@ export class AddDetailPage implements OnInit {
   }
 
   clearData() {
-    this.postdata.Mname = '';
     this.postdata.description = '';
-    this.postdata.medicine = '';
-    this.postdata.medicineType = '';
     this.postdata.time = '';
+    this.postdata.place = '';
   }
 
   getFamilyData() {
@@ -89,16 +84,16 @@ export class AddDetailPage implements OnInit {
     });
   }
 
-  getMedNoticeData(medNoticeIndex) {
+  getDoctorNoticeData(doctorNoticeIndex) {
     this.storage.get('families').then(val => {
       const familyDetail = val[this.familyIndex];
-      this.postdata = familyDetail.noticeMed[medNoticeIndex];
+      this.postdata = familyDetail.noticeDoctor[doctorNoticeIndex];
     });
   }
 
   onSave() {
     if (this.validate()) {
-      this.familyDetail.noticeMed.push(this.postdata);
+      this.familyDetail.noticeDoctor.push(this.postdata);
 
       this.storage.get('families').then(families => {
         let oldFamilies = [];
@@ -110,7 +105,7 @@ export class AddDetailPage implements OnInit {
           this.storage.set('families', oldFamilies).then(saved => {
             console.log(saved);
             alert('บันทึกข้อมูลสำเร็จ');
-            this.setNotice(this.familyDetail.noticeMed);
+            this.setNotice(this.familyDetail.noticeDoctor);
           });
         });
 
@@ -121,12 +116,12 @@ export class AddDetailPage implements OnInit {
 
   onUpdate() {
     if (this.validate()) {
-      // this.familyDetail.noticeMed.push(this.postdata);
-      const newMed = this.familyDetail.noticeMed;
-      newMed.splice(this.medIndex, 1);
-      newMed.splice(this.medIndex, 0, this.postdata);
+      // this.familyDetail.noticeDoctor.push(this.postdata);
+      const newDoctor = this.familyDetail.noticeDoctor;
+      newDoctor.splice(this.doctorIndex, 1);
+      newDoctor.splice(this.doctorIndex, 0, this.postdata);
 
-      this.familyDetail.noticeMed = newMed;
+      this.familyDetail.noticeDoctor = newDoctor;
 
       this.storage.get('families').then(families => {
         let oldFamilies = [];
@@ -138,7 +133,7 @@ export class AddDetailPage implements OnInit {
           this.storage.set('families', oldFamilies).then(saved => {
             console.log(saved);
             alert('บันทึกข้อมูลสำเร็จ');
-            this.setNotice(this.familyDetail.noticeMed);
+            this.setNotice(this.familyDetail.noticeDoctor);
           });
         });
 
@@ -147,7 +142,7 @@ export class AddDetailPage implements OnInit {
 
   }
 
-  setNotice(medList) {
+  setNotice(doctorList) {
     this.localNotifications.cancelAll().then(() => {
       this.localNotifications.clearAll().then(() => {
         // set การแจ้งเตือน โดยดึงค่าที่ต้องการแจ้งเตือนทั้งหมดมาวน loop
@@ -155,52 +150,21 @@ export class AddDetailPage implements OnInit {
         let idIndex = 1;
 
         // วน loop
-        medList.forEach(notice => {
+        doctorList.forEach(notice => {
 
           // แปลงเวลาที่ user เลือก เอาเฉพาะ ชั่วโมงกับนาที
           const selectDate = new Date(notice.time);
           console.log(selectDate.getHours());
           console.log(selectDate.getMinutes());
-          let selectHr = selectDate.getHours();
-          let selectMin = selectDate.getMinutes();
-
-          console.log(notice.medicineType);
-          if (notice.medicineType === 'ก่อนอาหาร') {
-            console.log('before');
-            selectMin = selectMin - 15;
-            console.log('- 15: ' + selectMin);
-            if (selectMin < 0) {
-              selectHr = selectHr - 1;
-              selectMin = selectMin + 60;
-              console.log('<0 15: ' + selectMin);
-            }
-          } else if (notice.medicineType === 'หลังอาหาร') {
-            console.log('after');
-            selectMin = selectMin + 15;
-            console.log('- 15: ' + selectMin);
-            if (selectMin > 59) {
-              selectHr = selectHr + 1;
-              const minLeft = selectMin - 60;
-              if (minLeft === 0) {
-                selectMin = 0;
-              } else {
-                selectMin = minLeft;
-              }
-              console.log('>60 timeLeft: ' + selectMin);
-            }
-          }
-
+          const selectHr = selectDate.getHours();
+          const selectMin = selectDate.getMinutes();
 
           // set parameter สำหรับแจ้งเตือน notification ตาม structure นี้
           const noticeParam = {
-            id: idIndex,
-            title: notice.Mname + ' ' + notice.medicine + ' ' + notice.description + ' ' + notice.medicineType + ' ' + notice.amt
-              + ' ' + notice.unit,
+            id: +(new Date()),
+            title: 'นัดหมอ: ' + notice.Mname + ' เวลา: ' + notice.time + ' รายละเอียด: ' + notice.description,
             trigger: {
-              every: {
-                hour: selectHr,
-                minute: selectMin
-              }
+              at: new Date(new Date(notice.time).getTime())
             }
           };
 

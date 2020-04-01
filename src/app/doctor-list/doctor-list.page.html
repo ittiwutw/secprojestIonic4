@@ -1,0 +1,27 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>รายการนัดหมอ</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onClickAdd()">เพิ่มการนัดหมอ</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let med of doctorList; let i = index">
+    <ion-card-header>
+      {{med.Mname}}
+    </ion-card-header>
+    <ion-card-content>
+      <p>รายละเอียดการเตรียมตัว: {{med.description}}</p>
+      <p>วัน/เวลา ที่นัด: {{med.time | date: 'dd/MM/yyyy, HH:mm'}}</p>
+    </ion-card-content>
+    <div class="ion-text-right ion-padding">
+      <ion-button color="warning" (click)="onClickUpdate(i)">แก้ไข</ion-button>
+      <ion-button color="danger" (click)="removeDoctor(i)">ลบ</ion-button>
+    </div>
+  </ion-card>
+</ion-content>

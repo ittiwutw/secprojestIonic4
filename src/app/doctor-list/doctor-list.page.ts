@@ -4,13 +4,13 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-notification-list',
-  templateUrl: './notification-list.page.html',
-  styleUrls: ['./notification-list.page.scss'],
+  selector: 'app-doctor-list',
+  templateUrl: './doctor-list.page.html',
+  styleUrls: ['./doctor-list.page.scss'],
 })
-export class NotificationListPage implements OnInit {
+export class DoctorListPage implements OnInit {
 
-  medList = [];
+  doctorList = [];
   familyDetail: any;
 
   constructor(
@@ -21,7 +21,7 @@ export class NotificationListPage implements OnInit {
   ) {
     this.activatedRoute.params.subscribe(param => {
       this.familyDetail = JSON.parse(param.familyDetail);
-      this.medList = this.familyDetail.noticeMed;
+      this.doctorList = this.familyDetail.noticeDoctor;
 
       console.log(this.familyDetail);
     });
@@ -34,23 +34,23 @@ export class NotificationListPage implements OnInit {
 
   ionViewWillEnter() {
 
-    // หลังจากเข้าหน้า home ให้โปรแกรมดึงค่าจาก storage ชื่อ MedList
-    // this.storage.get('MedList').then(val => {
+    // หลังจากเข้าหน้า home ให้โปรแกรมดึงค่าจาก storage ชื่อ DoctorList
+    // this.storage.get('DoctorList').then(val => {
     //   console.log(val);
-    //   this.medList = val;
+    //   this.doctorList = val;
     // });
   }
 
   onClickAdd() {
-    this.router.navigate(['/add-detail', { familyIndex: this.familyDetail.familyIndex }]);
+    this.router.navigate(['/add-doctor', { familyIndex: this.familyDetail.familyIndex }]);
   }
 
-  removeMed(index) {
+  removeDoctor(index) {
 
     // ลบข้อมูลและ set ไปที่ storage อีกครั้ง โดยลบของเก่าและ set ใหม่
-    this.medList.splice(index, 1);
+    this.doctorList.splice(index, 1);
 
-    this.familyDetail.noticeMed = this.medList;
+    this.familyDetail.noticeDoctor = this.doctorList;
 
     this.storage.get('families').then(families => {
       let oldFamilies = [];
@@ -62,18 +62,18 @@ export class NotificationListPage implements OnInit {
         this.storage.set('families', oldFamilies).then(saved => {
           console.log(saved);
           alert('ลบข้อมูลสำเร็จ');
-          this.setNotice(this.familyDetail.noticeMed);
+          this.setNotice(this.familyDetail.noticeDoctor);
         });
       });
 
     });
   }
 
-  onClickUpdate(medIndex) {
-    this.router.navigate(['/add-detail', { familyIndex: this.familyDetail.familyIndex, medIndex }]);
+  onClickUpdate(doctorIndex) {
+    this.router.navigate(['/add-doctor', { familyIndex: this.familyDetail.familyIndex, doctorIndex }]);
   }
 
-  setNotice(medList) {
+  setNotice(doctorList) {
     this.localNotifications.cancelAll().then(() => {
       this.localNotifications.clearAll().then(() => {
         // set การแจ้งเตือน โดยดึงค่าที่ต้องการแจ้งเตือนทั้งหมดมาวน loop
@@ -81,7 +81,7 @@ export class NotificationListPage implements OnInit {
         let idIndex = 1;
 
         // วน loop
-        medList.forEach(notice => {
+        doctorList.forEach(notice => {
 
           // แปลงเวลาที่ user เลือก เอาเฉพาะ ชั่วโมงกับนาที
           const selectDate = new Date(notice.time);
@@ -90,7 +90,7 @@ export class NotificationListPage implements OnInit {
           let selectHr = selectDate.getHours();
           let selectMin = selectDate.getMinutes();
 
-          if (notice.medicineType === 'ก่อนอาหาร') {
+          if (notice.doctoricineType === 'ก่อนอาหาร') {
             selectMin = selectMin - 15;
             if (selectMin < 0) {
               selectHr = selectHr - 1;
@@ -102,8 +102,7 @@ export class NotificationListPage implements OnInit {
           // set parameter สำหรับแจ้งเตือน notification ตาม structure นี้
           const noticeParam = {
             id: idIndex,
-            title: notice.Mname + ' ' + notice.medicine + ' ' + notice.description + ' ' + notice.medicineType + ' ' + notice.amt
-              + ' ' + notice.unit,
+            title: notice.Mname + ' ' + notice.doctoricine + ' ' + notice.description,
             trigger: {
               every: {
                 hour: selectHr,

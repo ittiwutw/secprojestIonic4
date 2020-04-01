@@ -26,8 +26,10 @@
       <p>ส่วนสูง: {{family.height || '-' }}</p>
     </ion-card-content>
     <div class="ion-text-right ion-padding">
-      <ion-button color="warning" (click)="onClickUpdate(family, i)">แก้ไข</ion-button>
+      <ion-button (click)="onClickDoctorList(family, i)">การแจ้งเตือนนัดหมอ</ion-button>
       <ion-button (click)="onClickNotiList(family, i)">การแจ้งเตือนกินยา</ion-button>
+      <br>
+      <ion-button color="warning" (click)="onClickUpdate(family, i)">แก้ไข</ion-button>
       <ion-button color="danger" (click)="onClickRemove(i)">ลบ</ion-button>
     </div>
   </ion-card>

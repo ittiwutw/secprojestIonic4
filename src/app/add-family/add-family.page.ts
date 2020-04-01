@@ -22,7 +22,8 @@ export class AddFamilyPage implements OnInit {
     blood: '',
     weight: '',
     height: '',
-    noticeMed: []
+    noticeMed: [],
+    noticeDoctor: []
   };
 
   familyIndex: any;

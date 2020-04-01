@@ -39,6 +39,11 @@ export class FamilyListPage implements OnInit {
     this.router.navigate(['/notification-list', { familyDetail: JSON.stringify(familyDetail) }]);
   }
 
+  onClickDoctorList(familyDetail, index) {
+    familyDetail.familyIndex = index;
+    this.router.navigate(['/doctor-list', { familyDetail: JSON.stringify(familyDetail) }]);
+  }
+
   onClickRemove(index) {
     this.families.splice(index, 1);
     this.storage.remove('families').then(removed => {
@@ -107,7 +112,8 @@ export class FamilyListPage implements OnInit {
           // set parameter สำหรับแจ้งเตือน notification ตาม structure นี้
           const noticeParam = {
             id: idIndex,
-            title: notice.Mname + ' ' + notice.medicine + ' ' + notice.description,
+            title: notice.Mname + ' ' + notice.medicine + ' ' + notice.description + ' ' + notice.medicineType + ' ' + notice.amt
+              + ' ' + notice.unit,
             trigger: {
               every: {
                 hour: selectHr,

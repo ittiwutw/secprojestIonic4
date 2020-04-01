@@ -34,6 +34,14 @@ const routes: Routes = [
   {
     path: 'notification-list',
     loadChildren: () => import('./notification-list/notification-list.module').then( m => m.NotificationListPageModule)
+  },
+  {
+    path: 'add-doctor',
+    loadChildren: () => import('./add-doctor/add-doctor.module').then( m => m.AddDoctorPageModule)
+  },
+  {
+    path: 'doctor-list',
+    loadChildren: () => import('./doctor-list/doctor-list.module').then( m => m.DoctorListPageModule)
   }
 ];
 
